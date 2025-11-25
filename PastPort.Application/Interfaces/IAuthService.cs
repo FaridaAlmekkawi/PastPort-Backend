@@ -26,4 +26,5 @@ public interface IAuthService
 // External Login
 Task<AuthResponseDto> ExternalLoginAsync(ExternalLoginRequestDto request);
 Task<AuthResponseDto> ExternalLoginCallbackAsync(ExternalLoginCallbackDto callback);
+Task<AuthResponseDto> GoogleSignInAsync(string idToken);
 }

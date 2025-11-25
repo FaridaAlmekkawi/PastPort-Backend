@@ -7,9 +7,10 @@ using PastPort.Domain.Entities;
 using PastPort.Infrastructure.Data;
 using System.Security.Cryptography;
 
+
 namespace PastPort.Infrastructure.Identity;
 
-public class AuthService : IAuthService
+public class AuthService : IAu
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
