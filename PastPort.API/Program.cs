@@ -241,3 +241,5 @@ finally
 {
     Log.CloseAndFlush();
 }
+
+// this is the end of the file
