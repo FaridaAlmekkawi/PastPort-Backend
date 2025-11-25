@@ -109,12 +109,15 @@ var secretKey = jwtSettings["SecretKey"];
 if (string.IsNullOrEmpty(secretKey))
     throw new InvalidOperationException("JWT SecretKey is not configured");
 
-builder.Services.AddAuthentication(options =>
+// ✅ Authentication Configuration with External Providers
+var authBuilder = builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
+});
+
+// JWT Bearer Authentication
+authBuilder.AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -144,8 +147,73 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// ❌ حذف Google/Facebook/Apple Authentication مؤقتاً
-// هنضيفهم لما تحتاجيهم في Phase 4
+// ✅ Google Authentication
+var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
+var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+
+if (!string.IsNullOrEmpty(googleClientId) && !string.IsNullOrEmpty(googleClientSecret))
+{
+    authBuilder.AddGoogle(options =>
+    {
+        options.ClientId = googleClientId;
+        options.ClientSecret = googleClientSecret;
+        options.SaveTokens = true;
+
+        // Scopes للحصول على معلومات المستخدم
+        options.Scope.Add("profile");
+        options.Scope.Add("email");
+
+        options.Events.OnCreatingTicket = context =>
+        {
+            Log.Information("Google authentication successful for user: {Email}",
+                context.Principal?.FindFirst(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value);
+            return Task.CompletedTask;
+        };
+    });
+    Log.Information("Google Authentication enabled");
+}
+else
+{
+    Log.Warning("Google Authentication is not configured - skipping");
+}
+
+// ✅ Facebook Authentication
+var facebookAppId = builder.Configuration["Authentication:Facebook:AppId"];
+var facebookAppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+
+if (!string.IsNullOrEmpty(facebookAppId) && !string.IsNullOrEmpty(facebookAppSecret))
+{
+    authBuilder.AddFacebook(options =>
+    {
+        options.AppId = facebookAppId;
+        options.AppSecret = facebookAppSecret;
+        options.SaveTokens = true;
+
+        // الحقول المطلوبة من Facebook
+        options.Fields.Add("name");
+        options.Fields.Add("email");
+        options.Fields.Add("picture");
+        options.Fields.Add("first_name");
+        options.Fields.Add("last_name");
+
+        options.Scope.Add("email");
+        options.Scope.Add("public_profile");
+
+        options.Events.OnCreatingTicket = context =>
+        {
+            Log.Information("Facebook authentication successful for user: {Email}",
+                context.Principal?.FindFirst(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value);
+            return Task.CompletedTask;
+        };
+    });
+    Log.Information("Facebook Authentication enabled");
+}
+else
+{
+    Log.Warning("Facebook Authentication is not configured - skipping");
+}
+
+
 
 // Repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -162,7 +230,6 @@ builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<IConversationService, ConversationService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-
 
 // File Storage
 builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
@@ -243,5 +310,3 @@ finally
 {
     Log.CloseAndFlush();
 }
-
-// this is the end of the file
