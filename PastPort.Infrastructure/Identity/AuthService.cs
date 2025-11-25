@@ -477,23 +477,17 @@ public class AuthService : IAuthService
         return RandomNumberGenerator.GetInt32(100000, 999999).ToString();
     }
 
-// ========== External Login ==========
+    // ========== External Login ==========
 
-public async Task<AuthResponseDto> ExternalLoginAsync(ExternalLoginRequestDto request)
-{
-    // سيتم استدعاء هذا من Frontend بعد نجاح Login من Provider
-    
-    // هنا نتحقق من صحة الـ Token من Provider
-    // ثم نسجل المستخدم أو نسجله دخول
-    
-    return new AuthResponseDto
+    public Task<AuthResponseDto> ExternalLoginAsync(ExternalLoginRequestDto request)
     {
-        Success = false,
-        Message = "Not implemented yet - Use callback endpoint"
-    };
-}
-
-public async Task<AuthResponseDto> ExternalLoginCallbackAsync(ExternalLoginCallbackDto callback)
+        return Task.FromResult(new AuthResponseDto
+        {
+            Success = false,
+            Message = "Not implemented yet - Use callback endpoint"
+        });
+    }
+    public async Task<AuthResponseDto> ExternalLoginCallbackAsync(ExternalLoginCallbackDto callback)
 {
     // البحث عن المستخدم بالـ Email
     var user = await _userManager.FindByEmailAsync(callback.Email);

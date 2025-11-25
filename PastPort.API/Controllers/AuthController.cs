@@ -280,20 +280,16 @@ public async Task<IActionResult> ExternalLoginCallback(
     return Ok(result);
 }
 
-/// <summary>
-/// Mobile/SPA External Login - For Flutter/React apps
-/// </summary>
-[HttpPost("external-login/mobile")]
-public async Task<IActionResult> MobileExternalLogin([FromBody] ExternalLoginRequestDto request)
-{
-    // هنا يرسل الـ Mobile App الـ Token بعد نجاح Login
-    // نتحقق من صحة الـ Token ثم نسجل المستخدم
-    
-    // TODO: Verify token with provider API
-    // For now, return not implemented
-    
-    return BadRequest(new { message = "Use web login flow or implement token verification" });
-}
+    /// <summary>
+    /// Mobile/SPA External Login - For Flutter/React apps
+    /// </summary>
+    [HttpPost("external-login/mobile")]
+    public Task<IActionResult> MobileExternalLogin([FromBody] ExternalLoginRequestDto request)
+    {
+        return Task.FromResult<IActionResult>(
+            BadRequest(new { message = "Use web login flow or implement token verification" })
+        );
+    }
 }
 
 
