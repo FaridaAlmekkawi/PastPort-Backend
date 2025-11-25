@@ -1,14 +1,14 @@
-namespace PastPort.Domain.Entities;
+﻿namespace PastPort.Domain.Entities;
 
-public class RefreshToken
+public class EmailVerificationCode
 {
     public Guid Id { get; set; }
-    public string Token { get; set; } = string.Empty;
     public string UserId { get; set; } = string.Empty;
+    public string Code { get; set; } = string.Empty;
     public DateTime ExpiresAt { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public bool IsRevoked { get; set; } = false;
-    public DateTime? RevokedAt { get; set; } 
+    public bool IsUsed { get; set; } = false;
+    public DateTime? UsedAt { get; set; }
 
     // Navigation Property
     public ApplicationUser User { get; set; } = null!;

@@ -37,6 +37,7 @@ public class SubscriptionRepository : Repository<Subscription>, ISubscriptionRep
             .ToListAsync();
     }
 
+   
     public async Task<IEnumerable<Subscription>> GetExpiringSubscriptionsAsync(int daysBeforeExpiry)
     {
         var expiryDate = DateTime.UtcNow.AddDays(daysBeforeExpiry);

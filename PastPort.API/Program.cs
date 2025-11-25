@@ -10,15 +10,13 @@ using PastPort.Infrastructure.Data.Repositories;
 using PastPort.Infrastructure.Identity;
 using Serilog;
 using System.Text;
-using PastPort.API.Extensions;  
-using Microsoft.OpenApi.Models; 
+using PastPort.API.Extensions;
+using Microsoft.OpenApi.Models;
 using PastPort.Domain.Interfaces;
-using PastPort.Application.Identity;
 using PastPort.Application.Services;
 using PastPort.Infrastructure.ExternalServices.AI;
 using PastPort.Infrastructure.ExternalServices.Storage;
-
-
+using PastPort.Application.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,23 +77,29 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Identity Configuration
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    // Password settings
+    // Password settings - محسّنة للأمان
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 8;
 
     // User settings
     options.User.RequireUniqueEmail = true;
 
-    // Lockout settings
+    // Lockout settings - حماية من Brute Force
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.AllowedForNewUsers = true;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
+
+// Password Hashing Configuration
+builder.Services.Configure<PasswordHasherOptions>(options =>
+{
+    options.IterationCount = 210000;
+});
 
 // JWT Configuration
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
@@ -140,23 +144,30 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// ❌ حذف Google/Facebook/Apple Authentication مؤقتاً
+// هنضيفهم لما تحتاجيهم في Phase 4
+
 // Repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ISceneRepository, SceneRepository>();
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+
 // Services
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ISceneService, SceneService>();
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<IConversationService, ConversationService>();
-builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+
+// File Storage
+builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
+
 // AI Service
 builder.Services.AddScoped<IAIConversationService, MockAIConversationService>();
-builder.Services.AddScoped<IFileStorageService,LocalFileStorageService>();
+
 // CORS
 builder.Services.AddCors(options =>
 {
@@ -182,6 +193,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Static Files (للصور والملفات المرفوعة)
+app.UseStaticFiles();
+
 // Custom Middlewares
 app.UseRequestLogging();
 app.UseCustomExceptionHandler();
@@ -193,9 +208,26 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-
-app.UseStaticFiles(); 
 Log.Information("PastPort API Starting...");
+
+// Seed Roles
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    string[] roles = { "Admin", "School", "Museum", "Enterprise", "Individual" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+            Log.Information("Role '{Role}' created successfully", role);
+        }
+    }
+
+    Log.Information("All roles initialized");
+}
 
 try
 {

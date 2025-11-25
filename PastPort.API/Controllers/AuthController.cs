@@ -6,130 +6,294 @@ using System.Security.Claims;
 
 namespace PastPort.API.Controllers;
 
-public class AuthController : BaseApiController
+[ApiController]
+[Route("api/[controller]")]
+public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
-    private readonly ILogger<AuthController> _logger;
 
-    public AuthController(IAuthService authService, ILogger<AuthController> logger)
+    public AuthController(IAuthService authService)
     {
         _authService = authService;
-        _logger = logger;
     }
 
-    /// <summary>
-    /// Register a new user
-    /// </summary>
     [HttpPost("register")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
     {
-        try
-        {
-            var result = await _authService.RegisterAsync(request);
-            _logger.LogInformation("User registered successfully: {Email}", request.Email);
-            return Ok(new { data = result, message = "Registration successful" });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Registration failed for {Email}", request.Email);
-            return HandleError(ex);
-        }
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _authService.RegisterAsync(request);
+
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
     }
 
-    /// <summary>
-    /// Login user
-    /// </summary>
     [HttpPost("login")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
     {
-        try
-        {
-            var result = await _authService.LoginAsync(request);
-            _logger.LogInformation("User logged in successfully: {Email}", request.Email);
-            return Ok(new { data = result, message = "Login successful" });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "Login failed for {Email}", request.Email);
-            return Unauthorized(new { error = ex.Message });
-        }
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _authService.LoginAsync(request);
+
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
     }
 
-    /// <summary>
-    /// Refresh access token
-    /// </summary>
     [HttpPost("refresh-token")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)
     {
-        try
-        {
-            var result = await _authService.RefreshTokenAsync(request.RefreshToken);
-            return Ok(new { data = result, message = "Token refreshed successfully" });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "Token refresh failed");
-            return Unauthorized(new { error = ex.Message });
-        }
+        var result = await _authService.RefreshTokenAsync(request.RefreshToken);
+
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
     }
 
-    /// <summary>
-    /// Logout user (revoke tokens)
-    /// </summary>
     [Authorize]
     [HttpPost("logout")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Logout()
     {
-        try
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId))
-                return Unauthorized();
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
 
-            await _authService.RevokeTokenAsync(userId);
-            _logger.LogInformation("User logged out: {UserId}", userId);
-            return Ok(new { message = "Logged out successfully" });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Logout failed");
-            return HandleError(ex);
-        }
+        var result = await _authService.LogoutAsync(userId);
+
+        if (!result)
+            return BadRequest(new { message = "Logout failed" });
+
+        return Ok(new { message = "Logged out successfully" });
     }
 
-    /// <summary>
-    /// Get current user info
-    /// </summary>
+    // ========== Email Verification ==========
+
     [Authorize]
-    [HttpGet("me")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public IActionResult GetCurrentUser()
+    [HttpPost("send-verification-code")]
+    public async Task<IActionResult> SendVerificationCode()
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var email = User.FindFirstValue(ClaimTypes.Email);
-        var name = User.FindFirstValue(ClaimTypes.Name);
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
 
-        return Ok(new
-        {
-            data = new
-            {
-                id = userId,
-                email = email,
-                name = name
-            }
-        });
+        var result = await _authService.SendVerificationCodeAsync(userId);
+        
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
     }
+
+    [HttpPost("verify-email")]
+    public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailRequestDto request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _authService.VerifyEmailAsync(request);
+
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
+    }
+
+    [HttpPost("resend-verification-code")]
+    public async Task<IActionResult> ResendVerificationCode([FromBody] ResendVerificationCodeRequestDto request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _authService.ResendVerificationCodeAsync(request);
+
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
+    }
+
+    // ========== Password Reset ==========
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _authService.ForgotPasswordAsync(request);
+
+        return Ok(result); // Always return success to prevent email enumeration
+    }
+
+    [HttpPost("verify-reset-code")]
+    public async Task<IActionResult> VerifyResetCode([FromBody] VerifyResetCodeRequestDto request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _authService.VerifyResetCodeAsync(request);
+
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _authService.ResetPasswordAsync(request);
+
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
+    }
+
+    // ========== Change Password ==========
+
+    [Authorize]
+    [HttpPost("change-password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDto request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
+
+        var result = await _authService.ChangePasswordAsync(userId, request);
+
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
+    }
+// ========== External Login ==========
+
+/// <summary>
+/// Google Login - Redirect to Google
+/// </summary>
+[HttpGet("external-login/google")]
+public IActionResult GoogleLogin([FromQuery] string returnUrl = "/")
+{
+    var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Auth", 
+        new { provider = "Google", returnUrl });
+    
+    var properties = new AuthenticationProperties 
+    { 
+        RedirectUri = redirectUrl 
+    };
+    
+    return Challenge(properties, "Google");
 }
 
-public class RefreshTokenRequestDto
+/// <summary>
+/// Facebook Login - Redirect to Facebook
+/// </summary>
+[HttpGet("external-login/facebook")]
+public IActionResult FacebookLogin([FromQuery] string returnUrl = "/")
 {
-    public string RefreshToken { get; set; } = string.Empty;
+    var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Auth", 
+        new { provider = "Facebook", returnUrl });
+    
+    var properties = new AuthenticationProperties 
+    { 
+        RedirectUri = redirectUrl 
+    };
+    
+    return Challenge(properties, "Facebook");
 }
+
+/// <summary>
+/// Apple Login - Redirect to Apple
+/// </summary>
+[HttpGet("external-login/apple")]
+public IActionResult AppleLogin([FromQuery] string returnUrl = "/")
+{
+    var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Auth", 
+        new { provider = "Apple", returnUrl });
+    
+    var properties = new AuthenticationProperties 
+    { 
+        RedirectUri = redirectUrl 
+    };
+    
+    return Challenge(properties, "Apple");
+}
+
+/// <summary>
+/// External Login Callback - Called by Provider after successful login
+/// </summary>
+[HttpGet("external-login-callback")]
+public async Task<IActionResult> ExternalLoginCallback(
+    [FromQuery] string provider, 
+    [FromQuery] string returnUrl = "/")
+{
+    var info = await HttpContext.AuthenticateAsync(provider);
+    
+    if (!info.Succeeded)
+    {
+        return BadRequest(new { message = "External authentication failed" });
+    }
+
+    // استخرج البيانات من Claims
+    var email = info.Principal?.FindFirst(ClaimTypes.Email)?.Value;
+    var firstName = info.Principal?.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
+    var lastName = info.Principal?.FindFirst(ClaimTypes.Surname)?.Value ?? "";
+    var providerId = info.Principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+    if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(providerId))
+    {
+        return BadRequest(new { message = "Could not retrieve user information" });
+    }
+
+    var callback = new ExternalLoginCallbackDto
+    {
+        Email = email,
+        FirstName = firstName,
+        LastName = lastName,
+        ProviderId = providerId,
+        Provider = provider
+    };
+
+    var result = await _authService.ExternalLoginCallbackAsync(callback);
+
+    if (!result.Success)
+        return BadRequest(result);
+
+    // في Production: Redirect للـ Frontend مع الـ Token
+    return Ok(result);
+}
+
+/// <summary>
+/// Mobile/SPA External Login - For Flutter/React apps
+/// </summary>
+[HttpPost("external-login/mobile")]
+public async Task<IActionResult> MobileExternalLogin([FromBody] ExternalLoginRequestDto request)
+{
+    // هنا يرسل الـ Mobile App الـ Token بعد نجاح Login
+    // نتحقق من صحة الـ Token ثم نسجل المستخدم
+    
+    // TODO: Verify token with provider API
+    // For now, return not implemented
+    
+    return BadRequest(new { message = "Use web login flow or implement token verification" });
+}
+}
+
+
+public record RefreshTokenRequestDto(string RefreshToken);
