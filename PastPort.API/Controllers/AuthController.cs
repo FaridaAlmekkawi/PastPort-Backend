@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PastPort.Application.DTOs.Request;
 using PastPort.Application.Interfaces;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;  
 
 namespace PastPort.API.Controllers;
 
