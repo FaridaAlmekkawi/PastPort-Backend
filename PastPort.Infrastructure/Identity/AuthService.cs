@@ -527,98 +527,7 @@ public class AuthService : IAuthService
         };
     }
 
-    // ========== External Login (Google/Facebook/Apple) ==========
-    public async Task<AuthResponseDto> ExternalLoginCallbackAsync(ExternalLoginCallbackDto callback)
-    {
-        // البحث عن المستخدم
-        var user = await _userManager.FindByEmailAsync(callback.Email);
-
-        if (user == null)
-        {
-            // مستخدم جديد - التسجيل التلقائي
-            user = new ApplicationUser
-            {
-                UserName = callback.Email,
-                Email = callback.Email,
-                FirstName = callback.FirstName,
-                LastName = callback.LastName,
-                CreatedAt = DateTime.UtcNow,
-                IsEmailVerified = true, // External providers verify email
-                EmailVerifiedAt = DateTime.UtcNow,
-                EmailConfirmed = true
-            };
-
-            var result = await _userManager.CreateAsync(user);
-
-            if (!result.Succeeded)
-            {
-                return new AuthResponseDto
-                {
-                    Success = false,
-                    Message = string.Join(", ", result.Errors.Select(e => e.Description))
-                };
-            }
-
-            // إضافة Role
-            await _userManager.AddToRoleAsync(user, "Individual");
-
-            // ربط External Login
-            var loginInfo = new UserLoginInfo(
-                callback.Provider,
-                callback.ProviderId,
-                callback.Provider
-            );
-
-            await _userManager.AddLoginAsync(user, loginInfo);
-
-            // إرسال Welcome Email
-            await _emailService.SendWelcomeEmailAsync(user.Email!, user.FirstName);
-        }
-        else
-        {
-            // مستخدم موجود - التحقق من الربط
-            var logins = await _userManager.GetLoginsAsync(user);
-            var existingLogin = logins.FirstOrDefault(l =>
-                l.LoginProvider == callback.Provider &&
-                l.ProviderKey == callback.ProviderId);
-
-            if (existingLogin == null)
-            {
-                // ربط الحساب
-                var loginInfo = new UserLoginInfo(
-                    callback.Provider,
-                    callback.ProviderId,
-                    callback.Provider
-                );
-
-                await _userManager.AddLoginAsync(user, loginInfo);
-            }
-        }
-
-        // تحديث آخر تسجيل دخول
-        user.LastLoginAt = DateTime.UtcNow;
-        await _userManager.UpdateAsync(user);
-
-        // توليد Tokens
-        var accessToken = await _jwtTokenService.GenerateAccessTokenAsync(user);
-        var refreshToken = await _jwtTokenService.CreateRefreshTokenAsync(user);
-
-        return new AuthResponseDto
-        {
-            Success = true,
-            Message = $"Signed in with {callback.Provider} successfully",
-            Token = accessToken,
-            RefreshToken = refreshToken.Token,
-            TokenExpiration = DateTime.UtcNow.AddMinutes(60),
-            User = new UserDto
-            {
-                Id = user.Id,
-                Email = user.Email!,
-                FirstName = user.FirstName,
-                LastName = user.LastName
-            }
-        };
-    }
+   
 
     // ========== Helper Methods ==========
     private string GenerateVerificationCode(int length = 6)
@@ -627,4 +536,106 @@ public class AuthService : IAuthService
         int max = (int)Math.Pow(10, length) - 1;
         return RandomNumberGenerator.GetInt32(min, max).ToString();
     }
+// ========== External Login Methods ==========
+
+public Task<AuthResponseDto> ExternalLoginAsync(ExternalLoginRequestDto request)
+{
+    return Task.FromResult(new AuthResponseDto
+    {
+        Success = false,
+        Message = "External login not fully implemented. Use web flow."
+    });
+}
+
+public async Task<AuthResponseDto> GoogleSignInAsync(string idToken)
+{
+    // TODO: Verify Google ID Token
+    // For now, return not implemented
+    return new AuthResponseDto
+    {
+        Success = false,
+        Message = "Google Sign-In via ID Token not implemented yet. Use web flow."
+    };
+}
+
+public async Task<AuthResponseDto> ExternalLoginCallbackAsync(ExternalLoginCallbackDto callback)
+{
+    var user = await _userManager.FindByEmailAsync(callback.Email);
+    
+    if (user == null)
+    {
+        user = new ApplicationUser
+        {
+            UserName = callback.Email,
+            Email = callback.Email,
+            FirstName = callback.FirstName,
+            LastName = callback.LastName,
+            CreatedAt = DateTime.UtcNow,
+            IsEmailVerified = true,
+            EmailVerifiedAt = DateTime.UtcNow,
+            EmailConfirmed = true
+        };
+
+        var result = await _userManager.CreateAsync(user);
+        
+        if (!result.Succeeded)
+        {
+            return new AuthResponseDto
+            {
+                Success = false,
+                Message = string.Join(", ", result.Errors.Select(e => e.Description))
+            };
+        }
+
+        await _userManager.AddToRoleAsync(user, "Individual");
+
+        var loginInfo = new UserLoginInfo(
+            callback.Provider,
+            callback.ProviderId,
+            callback.Provider
+        );
+        
+        await _userManager.AddLoginAsync(user, loginInfo);
+    }
+    else
+    {
+        var logins = await _userManager.GetLoginsAsync(user);
+        var existingLogin = logins.FirstOrDefault(l => 
+            l.LoginProvider == callback.Provider && 
+            l.ProviderKey == callback.ProviderId);
+
+        if (existingLogin == null)
+        {
+            var loginInfo = new UserLoginInfo(
+                callback.Provider,
+                callback.ProviderId,
+                callback.Provider
+            );
+            
+            await _userManager.AddLoginAsync(user, loginInfo);
+        }
+    }
+
+    user.LastLoginAt = DateTime.UtcNow;
+    await _userManager.UpdateAsync(user);
+
+    var accessToken = await _jwtTokenService.GenerateAccessTokenAsync(user);
+    var refreshToken = await _jwtTokenService.CreateRefreshTokenAsync(user);
+
+    return new AuthResponseDto
+    {
+        Success = true,
+        Message = "Login successful",
+        Token = accessToken,
+        RefreshToken = refreshToken.Token,
+        TokenExpiration = DateTime.UtcNow.AddMinutes(60),
+        User = new UserDto
+        {
+            Id = user.Id,
+            Email = user.Email!,
+            FirstName = user.FirstName,
+            LastName = user.LastName
+        }
+    };
+}
 }

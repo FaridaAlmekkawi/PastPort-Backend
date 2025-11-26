@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using PastPort.Application.Interfaces;
+﻿using PastPort.Application.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace PastPort.Infrastructure.ExternalServices.Email;
 
@@ -12,32 +12,31 @@ public class EmailService : IEmailService
         _logger = logger;
     }
 
-    public Task SendPasswordResetCodeAsync(string email, string code)
+    public Task SendVerificationEmailAsync(string email, string code)
     {
-        // Mock implementation - في Phase 4 هنستخدم SendGrid أو MailGun
-        _logger.LogInformation("Sending password reset code {Code} to {Email}", code, email);
-
-        // TODO: Implement actual email sending
-        Console.WriteLine($"========================================");
-        Console.WriteLine($"Password Reset Code for: {email}");
-        Console.WriteLine($"Code: {code}");
-        Console.WriteLine($"This code will expire in 10 minutes");
-        Console.WriteLine($"========================================");
-
+        _logger.LogInformation("📧 Verification Code for {Email}: {Code}", email, code);
+        Console.WriteLine($"📧 Verification Code for {email}: {code}");
         return Task.CompletedTask;
     }
 
-    public Task SendWelcomeEmailAsync(string email, string name)
+    public Task SendPasswordResetEmailAsync(string email, string code)
     {
-        _logger.LogInformation("Sending welcome email to {Email}", email);
-        Console.WriteLine($"Welcome to PastPort, {name}!");
+        _logger.LogInformation("📧 Password Reset Code for {Email}: {Code}", email, code);
+        Console.WriteLine($"📧 Password Reset Code for {email}: {code}");
+        return Task.CompletedTask;
+    }
+
+    public Task SendWelcomeEmailAsync(string email, string firstName)
+    {
+        _logger.LogInformation("📧 Welcome email sent to {Email}", email);
+        Console.WriteLine($"📧 Welcome {firstName}! Email sent to {email}");
         return Task.CompletedTask;
     }
 
     public Task SendPasswordChangedNotificationAsync(string email)
     {
-        _logger.LogInformation("Sending password changed notification to {Email}", email);
-        Console.WriteLine($"Your password has been changed successfully: {email}");
+        _logger.LogInformation("📧 Password changed notification sent to {Email}", email);
+        Console.WriteLine($"📧 Password Changed! Notification sent to {email}");
         return Task.CompletedTask;
     }
 }
