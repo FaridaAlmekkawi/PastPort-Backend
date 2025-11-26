@@ -7,10 +7,9 @@ using PastPort.Domain.Entities;
 using PastPort.Infrastructure.Data;
 using System.Security.Cryptography;
 
-
 namespace PastPort.Infrastructure.Identity;
 
-public class AuthService : IAu
+public class AuthService : IAuthService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
@@ -32,6 +31,7 @@ public class AuthService : IAu
         _emailService = emailService;
     }
 
+    // ========== Registration ==========
     public async Task<AuthResponseDto> RegisterAsync(RegisterRequestDto request)
     {
         var existingUser = await _userManager.FindByEmailAsync(request.Email);
@@ -65,11 +65,13 @@ public class AuthService : IAu
             };
         }
 
+        // إضافة Role افتراضي
         await _userManager.AddToRoleAsync(user, "Individual");
 
         // إرسال كود التفعيل
         await SendVerificationCodeAsync(user.Id);
 
+        // توليد Tokens
         var accessToken = await _jwtTokenService.GenerateAccessTokenAsync(user);
         var refreshToken = await _jwtTokenService.CreateRefreshTokenAsync(user);
 
@@ -90,6 +92,7 @@ public class AuthService : IAu
         };
     }
 
+    // ========== Login ==========
     public async Task<AuthResponseDto> LoginAsync(LoginRequestDto request)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
@@ -102,7 +105,17 @@ public class AuthService : IAu
             };
         }
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+        var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: true);
+
+        if (result.IsLockedOut)
+        {
+            return new AuthResponseDto
+            {
+                Success = false,
+                Message = "Account locked due to multiple failed attempts. Try again later."
+            };
+        }
+
         if (!result.Succeeded)
         {
             return new AuthResponseDto
@@ -112,9 +125,11 @@ public class AuthService : IAu
             };
         }
 
+        // تحديث آخر تسجيل دخول
         user.LastLoginAt = DateTime.UtcNow;
         await _userManager.UpdateAsync(user);
 
+        // توليد Tokens
         var accessToken = await _jwtTokenService.GenerateAccessTokenAsync(user);
         var refreshToken = await _jwtTokenService.CreateRefreshTokenAsync(user);
 
@@ -135,10 +150,11 @@ public class AuthService : IAu
         };
     }
 
+    // ========== Token Refresh ==========
     public async Task<AuthResponseDto> RefreshTokenAsync(string refreshToken)
     {
         var validatedToken = await _jwtTokenService.ValidateRefreshTokenAsync(refreshToken);
-        
+
         if (validatedToken == null)
         {
             return new AuthResponseDto
@@ -150,8 +166,10 @@ public class AuthService : IAu
 
         var user = validatedToken.User;
 
+        // إلغاء الـ Token القديم
         await _jwtTokenService.RevokeRefreshTokenAsync(refreshToken);
 
+        // توليد Tokens جديدة
         var newAccessToken = await _jwtTokenService.GenerateAccessTokenAsync(user);
         var newRefreshToken = await _jwtTokenService.CreateRefreshTokenAsync(user);
 
@@ -172,6 +190,7 @@ public class AuthService : IAu
         };
     }
 
+    // ========== Logout ==========
     public async Task<bool> LogoutAsync(string userId)
     {
         await _jwtTokenService.RevokeAllUserTokensAsync(userId);
@@ -180,7 +199,6 @@ public class AuthService : IAu
     }
 
     // ========== Email Verification ==========
-
     public async Task<ApiResponseDto> SendVerificationCodeAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
@@ -202,8 +220,15 @@ public class AuthService : IAu
             };
         }
 
-        // Generate 6-digit code
-        var code = GenerateVerificationCode();
+        // حذف الأكواد القديمة غير المستخدمة
+        var oldCodes = await _context.EmailVerificationCodes
+            .Where(v => v.UserId == userId && !v.IsUsed)
+            .ToListAsync();
+
+        _context.EmailVerificationCodes.RemoveRange(oldCodes);
+
+        // توليد كود 6 أرقام
+        var code = GenerateVerificationCode(6);
 
         var verificationCode = new EmailVerificationCode
         {
@@ -240,7 +265,7 @@ public class AuthService : IAu
         }
 
         var verificationCode = await _context.EmailVerificationCodes
-            .Where(v => v.UserId == request.UserId && v.Code == request.Code)
+            .Where(v => v.UserId == request.UserId && v.Code == request.Code && !v.IsUsed)
             .OrderByDescending(v => v.CreatedAt)
             .FirstOrDefaultAsync();
 
@@ -253,31 +278,22 @@ public class AuthService : IAu
             };
         }
 
-        if (verificationCode.IsUsed)
-        {
-            return new ApiResponseDto
-            {
-                Success = false,
-                Message = "Verification code already used"
-            };
-        }
-
         if (verificationCode.ExpiresAt < DateTime.UtcNow)
         {
             return new ApiResponseDto
             {
                 Success = false,
-                Message = "Verification code expired"
+                Message = "Verification code expired. Please request a new one."
             };
         }
 
-        // تفعيل الـ Email
+        // تفعيل Email
         user.IsEmailVerified = true;
         user.EmailVerifiedAt = DateTime.UtcNow;
         user.EmailConfirmed = true;
         await _userManager.UpdateAsync(user);
 
-        // Mark code as used
+        // تحديد الكود كمستخدم
         verificationCode.IsUsed = true;
         verificationCode.UsedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync();
@@ -296,22 +312,30 @@ public class AuthService : IAu
         {
             return new ApiResponseDto
             {
+                Success = true,
+                Message = "If the email exists, a verification code has been sent"
+            };
+        }
+
+        if (user.IsEmailVerified)
+        {
+            return new ApiResponseDto
+            {
                 Success = false,
-                Message = "User not found"
+                Message = "Email already verified"
             };
         }
 
         return await SendVerificationCodeAsync(user.Id);
     }
 
-    // ========== Password Reset ==========
-
+    // ========== Forgot Password (5-digit code) ==========
     public async Task<ApiResponseDto> ForgotPasswordAsync(ForgotPasswordRequestDto request)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
         if (user == null)
         {
-            // لا تكشف عن وجود المستخدم من عدمه
+            // Security: لا تكشف عن وجود المستخدم
             return new ApiResponseDto
             {
                 Success = true,
@@ -319,7 +343,15 @@ public class AuthService : IAu
             };
         }
 
-        var code = GenerateVerificationCode();
+        // حذف الأكواد القديمة
+        var oldTokens = await _context.PasswordResetTokens
+            .Where(r => r.UserId == user.Id && !r.IsUsed)
+            .ToListAsync();
+
+        _context.PasswordResetTokens.RemoveRange(oldTokens);
+
+        // توليد كود 5 أرقام
+        var code = GenerateVerificationCode(5);
         var token = Guid.NewGuid().ToString();
 
         var resetToken = new PasswordResetToken
@@ -335,6 +367,7 @@ public class AuthService : IAu
         _context.PasswordResetTokens.Add(resetToken);
         await _context.SaveChangesAsync();
 
+        // إرسال Email
         await _emailService.SendPasswordResetEmailAsync(user.Email!, code);
 
         return new ApiResponseDto
@@ -357,16 +390,25 @@ public class AuthService : IAu
         }
 
         var resetToken = await _context.PasswordResetTokens
-            .Where(r => r.UserId == user.Id && r.Code == request.Code)
+            .Where(r => r.UserId == user.Id && r.Code == request.Code && !r.IsUsed)
             .OrderByDescending(r => r.CreatedAt)
             .FirstOrDefaultAsync();
 
-        if (resetToken == null || resetToken.IsUsed || resetToken.ExpiresAt < DateTime.UtcNow)
+        if (resetToken == null)
         {
             return new ApiResponseDto
             {
                 Success = false,
-                Message = "Invalid or expired code"
+                Message = "Invalid code"
+            };
+        }
+
+        if (resetToken.ExpiresAt < DateTime.UtcNow)
+        {
+            return new ApiResponseDto
+            {
+                Success = false,
+                Message = "Code has expired. Please request a new one."
             };
         }
 
@@ -391,16 +433,25 @@ public class AuthService : IAu
         }
 
         var resetToken = await _context.PasswordResetTokens
-            .Where(r => r.UserId == user.Id && r.Code == request.Code)
+            .Where(r => r.UserId == user.Id && r.Code == request.Code && !r.IsUsed)
             .OrderByDescending(r => r.CreatedAt)
             .FirstOrDefaultAsync();
 
-        if (resetToken == null || resetToken.IsUsed || resetToken.ExpiresAt < DateTime.UtcNow)
+        if (resetToken == null)
         {
             return new ApiResponseDto
             {
                 Success = false,
-                Message = "Invalid or expired code"
+                Message = "Invalid code"
+            };
+        }
+
+        if (resetToken.ExpiresAt < DateTime.UtcNow)
+        {
+            return new ApiResponseDto
+            {
+                Success = false,
+                Message = "Code has expired"
             };
         }
 
@@ -417,13 +468,16 @@ public class AuthService : IAu
             };
         }
 
-        // Mark as used
+        // تحديد الكود كمستخدم
         resetToken.IsUsed = true;
         resetToken.UsedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync();
 
-        // Revoke all refresh tokens
+        // إلغاء كل Refresh Tokens (أمان)
         await _jwtTokenService.RevokeAllUserTokensAsync(user.Id);
+
+        // إرسال إشعار
+        await _emailService.SendPasswordChangedNotificationAsync(user.Email!);
 
         return new ApiResponseDto
         {
@@ -433,7 +487,6 @@ public class AuthService : IAu
     }
 
     // ========== Change Password ==========
-
     public async Task<ApiResponseDto> ChangePasswordAsync(string userId, ChangePasswordRequestDto request)
     {
         var user = await _userManager.FindByIdAsync(userId);
@@ -461,8 +514,11 @@ public class AuthService : IAu
             };
         }
 
-        // Revoke all refresh tokens for security
+        // إلغاء كل Refresh Tokens (أمان)
         await _jwtTokenService.RevokeAllUserTokensAsync(userId);
+
+        // إرسال إشعار
+        await _emailService.SendPasswordChangedNotificationAsync(user.Email!);
 
         return new ApiResponseDto
         {
@@ -471,110 +527,104 @@ public class AuthService : IAu
         };
     }
 
-    // ========== Helper Methods ==========
-
-    private string GenerateVerificationCode()
-    {
-        return RandomNumberGenerator.GetInt32(100000, 999999).ToString();
-    }
-
-    // ========== External Login ==========
-
-    public Task<AuthResponseDto> ExternalLoginAsync(ExternalLoginRequestDto request)
-    {
-        return Task.FromResult(new AuthResponseDto
-        {
-            Success = false,
-            Message = "Not implemented yet - Use callback endpoint"
-        });
-    }
+    // ========== External Login (Google/Facebook/Apple) ==========
     public async Task<AuthResponseDto> ExternalLoginCallbackAsync(ExternalLoginCallbackDto callback)
-{
-    // البحث عن المستخدم بالـ Email
-    var user = await _userManager.FindByEmailAsync(callback.Email);
-    
-    if (user == null)
     {
-        // مستخدم جديد - سجله
-        user = new ApplicationUser
-        {
-            UserName = callback.Email,
-            Email = callback.Email,
-            FirstName = callback.FirstName,
-            LastName = callback.LastName,
-            CreatedAt = DateTime.UtcNow,
-            IsEmailVerified = true, // External providers verify email
-            EmailVerifiedAt = DateTime.UtcNow,
-            EmailConfirmed = true
-        };
+        // البحث عن المستخدم
+        var user = await _userManager.FindByEmailAsync(callback.Email);
 
-        // إنشاء بدون password (External Login)
-        var result = await _userManager.CreateAsync(user);
-        
-        if (!result.Succeeded)
+        if (user == null)
         {
-            return new AuthResponseDto
+            // مستخدم جديد - التسجيل التلقائي
+            user = new ApplicationUser
             {
-                Success = false,
-                Message = string.Join(", ", result.Errors.Select(e => e.Description))
+                UserName = callback.Email,
+                Email = callback.Email,
+                FirstName = callback.FirstName,
+                LastName = callback.LastName,
+                CreatedAt = DateTime.UtcNow,
+                IsEmailVerified = true, // External providers verify email
+                EmailVerifiedAt = DateTime.UtcNow,
+                EmailConfirmed = true
             };
-        }
 
-        // أعطه Role
-        await _userManager.AddToRoleAsync(user, "Individual");
+            var result = await _userManager.CreateAsync(user);
 
-        // أضف Login Info
-        var loginInfo = new UserLoginInfo(
-            callback.Provider,
-            callback.ProviderId,
-            callback.Provider
-        );
-        
-        await _userManager.AddLoginAsync(user, loginInfo);
-    }
-    else
-    {
-        // مستخدم موجود - تحقق من ربط الحساب
-        var logins = await _userManager.GetLoginsAsync(user);
-        var existingLogin = logins.FirstOrDefault(l => 
-            l.LoginProvider == callback.Provider && 
-            l.ProviderKey == callback.ProviderId);
+            if (!result.Succeeded)
+            {
+                return new AuthResponseDto
+                {
+                    Success = false,
+                    Message = string.Join(", ", result.Errors.Select(e => e.Description))
+                };
+            }
 
-        if (existingLogin == null)
-        {
-            // ربط الحساب بهذا Provider
+            // إضافة Role
+            await _userManager.AddToRoleAsync(user, "Individual");
+
+            // ربط External Login
             var loginInfo = new UserLoginInfo(
                 callback.Provider,
                 callback.ProviderId,
                 callback.Provider
             );
-            
+
             await _userManager.AddLoginAsync(user, loginInfo);
+
+            // إرسال Welcome Email
+            await _emailService.SendWelcomeEmailAsync(user.Email!, user.FirstName);
         }
+        else
+        {
+            // مستخدم موجود - التحقق من الربط
+            var logins = await _userManager.GetLoginsAsync(user);
+            var existingLogin = logins.FirstOrDefault(l =>
+                l.LoginProvider == callback.Provider &&
+                l.ProviderKey == callback.ProviderId);
+
+            if (existingLogin == null)
+            {
+                // ربط الحساب
+                var loginInfo = new UserLoginInfo(
+                    callback.Provider,
+                    callback.ProviderId,
+                    callback.Provider
+                );
+
+                await _userManager.AddLoginAsync(user, loginInfo);
+            }
+        }
+
+        // تحديث آخر تسجيل دخول
+        user.LastLoginAt = DateTime.UtcNow;
+        await _userManager.UpdateAsync(user);
+
+        // توليد Tokens
+        var accessToken = await _jwtTokenService.GenerateAccessTokenAsync(user);
+        var refreshToken = await _jwtTokenService.CreateRefreshTokenAsync(user);
+
+        return new AuthResponseDto
+        {
+            Success = true,
+            Message = $"Signed in with {callback.Provider} successfully",
+            Token = accessToken,
+            RefreshToken = refreshToken.Token,
+            TokenExpiration = DateTime.UtcNow.AddMinutes(60),
+            User = new UserDto
+            {
+                Id = user.Id,
+                Email = user.Email!,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            }
+        };
     }
 
-    // حدّث آخر تسجيل دخول
-    user.LastLoginAt = DateTime.UtcNow;
-    await _userManager.UpdateAsync(user);
-
-    // ولّد Tokens
-    var accessToken = await _jwtTokenService.GenerateAccessTokenAsync(user);
-    var refreshToken = await _jwtTokenService.CreateRefreshTokenAsync(user);
-
-    return new AuthResponseDto
+    // ========== Helper Methods ==========
+    private string GenerateVerificationCode(int length = 6)
     {
-        Success = true,
-        Message = "Login successful",
-        Token = accessToken,
-        RefreshToken = refreshToken.Token,
-        TokenExpiration = DateTime.UtcNow.AddMinutes(60),
-        User = new UserDto
-        {
-            Id = user.Id,
-            Email = user.Email!,
-            FirstName = user.FirstName,
-            LastName = user.LastName
-        }
-    };
-}
+        int min = (int)Math.Pow(10, length - 1);
+        int max = (int)Math.Pow(10, length) - 1;
+        return RandomNumberGenerator.GetInt32(min, max).ToString();
+    }
 }
