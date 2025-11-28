@@ -1,9 +1,0 @@
-
-**/bin/
-**/obj/
-**/out/
-**/.vs/
-**/logs/
-**/*.user
-**/.DS_Store
-**/appsettings.Development.json
