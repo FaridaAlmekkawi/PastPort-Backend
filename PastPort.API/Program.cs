@@ -18,7 +18,10 @@ using PastPort.Infrastructure.ExternalServices.AI;
 using PastPort.Infrastructure.ExternalServices.Storage;
 using PastPort.Application.Identity;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
