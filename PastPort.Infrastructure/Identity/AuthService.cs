@@ -536,18 +536,18 @@ public class AuthService : IAuthService
         int max = (int)Math.Pow(10, length) - 1;
         return RandomNumberGenerator.GetInt32(min, max).ToString();
     }
-// ========== External Login Methods ==========
+    // ========== External Login Methods ==========
 
-public Task<AuthResponseDto> ExternalLoginAsync(ExternalLoginRequestDto request)
-{
-    return Task.FromResult(new AuthResponseDto
+    public Task<AuthResponseDto> ExternalLogin(ExternalLoginRequestDto request)
     {
-        Success = false,
-        Message = "External login not fully implemented. Use web flow."
-    });
-}
+        return Task.FromResult(new AuthResponseDto
+        {
+            Success = false,
+            Message = "External login not fully implemented. Use web flow."
+        });
+    }
 
-public async Task<AuthResponseDto> GoogleSignInAsync(string idToken)
+    public async Task<AuthResponseDto> GoogleSignInAsync(string idToken)
 {
     // TODO: Verify Google ID Token
     // For now, return not implemented

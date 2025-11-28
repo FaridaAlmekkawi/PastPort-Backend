@@ -25,7 +25,7 @@ public interface IAuthService
     // New - Change Password
     Task<ApiResponseDto> ChangePasswordAsync(string userId, ChangePasswordRequestDto request);
 // External Login
-Task<AuthResponseDto> ExternalLoginAsync(ExternalLoginRequestDto request);
+Task<AuthResponseDto> ExternalLogin(ExternalLoginRequestDto request);
 Task<AuthResponseDto> ExternalLoginCallbackAsync(ExternalLoginCallbackDto callback);
 Task<AuthResponseDto> GoogleSignInAsync(string idToken);
 }

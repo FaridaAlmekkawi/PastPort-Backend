@@ -18,7 +18,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<EmailVerificationCode> EmailVerificationCodes { get; set; } = null!;
     public DbSet<PasswordResetToken> PasswordResetTokens { get; set; } = null!;
-
+    public DbSet<Asset> Assets { get; set; } = null!;
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -62,6 +62,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         builder.Entity<PasswordResetToken>()
             .HasIndex(p => p.Token);
+builder.Entity<Asset>()
+    .HasOne(a => a.Scene)
+    .WithMany()
+    .HasForeignKey(a => a.SceneId)
+    .OnDelete(DeleteBehavior.SetNull);
+
+builder.Entity<Asset>()
+    .HasIndex(a => a.FileName);
+
+builder.Entity<Asset>()
+    .HasIndex(a => a.FileHash);
 
     }
 }

@@ -221,7 +221,7 @@ builder.Services.AddScoped<ISceneRepository, SceneRepository>();
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
-
+builder.Services.AddScoped<IAssetRepository, AssetRepository>();
 // Services
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -230,6 +230,7 @@ builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<IConversationService, ConversationService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+
 
 // File Storage
 builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
