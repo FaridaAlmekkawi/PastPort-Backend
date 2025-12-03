@@ -267,8 +267,22 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 
-// Static Files (للصور والملفات المرفوعة)
-app.UseStaticFiles();
+
+// Static Files (للـ Assets)
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets")),
+    RequestPath = "/assets",
+    OnPrepareResponse = ctx =>
+    {
+        // Enable CORS for assets
+        ctx.Context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+
+        // Cache for 1 hour
+        ctx.Context.Response.Headers.Add("Cache-Control", "public,max-age=3600");
+    }
+});
 
 // Custom Middlewares
 app.UseRequestLogging();
