@@ -17,6 +17,7 @@ using PastPort.Application.Services;
 using PastPort.Infrastructure.ExternalServices.AI;
 using PastPort.Infrastructure.ExternalServices.Storage;
 using PastPort.Application.Identity;
+using Microsoft.Extensions.FileProviders;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -233,6 +234,8 @@ builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<IConversationService, ConversationService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddHttpClient<IPayPalService, PayPalService>();
+
 
 
 // File Storage
@@ -277,10 +280,10 @@ app.UseStaticFiles(new StaticFileOptions
     OnPrepareResponse = ctx =>
     {
         // Enable CORS for assets
-        ctx.Context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
 
         // Cache for 1 hour
-        ctx.Context.Response.Headers.Add("Cache-Control", "public,max-age=3600");
+        ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=3600");
     }
 });
 

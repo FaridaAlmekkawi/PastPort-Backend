@@ -1,5 +1,5 @@
 using PastPort.Domain.Entities;
-
+using PastPort.Domain.Enums;
 namespace PastPort.Domain.Interfaces;
 
 public interface IAssetRepository : IRepository<Asset>

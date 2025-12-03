@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PastPort.Domain.Entities;
+using PastPort.Domain.Enums;
 using PastPort.Domain.Interfaces;
 
 namespace PastPort.Infrastructure.Data.Repositories;

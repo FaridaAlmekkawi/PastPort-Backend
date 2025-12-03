@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PastPort.Application.DTOs.Response;
 using PastPort.Domain.Entities;
 using PastPort.Domain.Interfaces;
+using PastPort.Domain.Enums;
 
 
 namespace PastPort.API.Controllers;

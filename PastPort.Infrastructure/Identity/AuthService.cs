@@ -548,15 +548,18 @@ public class AuthService : IAuthService
     }
 
     public async Task<AuthResponseDto> GoogleSignInAsync(string idToken)
-{
-    // TODO: Verify Google ID Token
-    // For now, return not implemented
-    return new AuthResponseDto
     {
-        Success = false,
-        Message = "Google Sign-In via ID Token not implemented yet. Use web flow."
-    };
-}
+        // Simulate an asynchronous operation to fix CS1998
+        await Task.CompletedTask;
+
+        // TODO: Verify Google ID Token
+        // For now, return not implemented
+        return new AuthResponseDto
+        {
+            Success = false,
+            Message = "Google Sign-In via ID Token not implemented yet. Use web flow."
+        };
+    }
 
 public async Task<AuthResponseDto> ExternalLoginCallbackAsync(ExternalLoginCallbackDto callback)
 {
