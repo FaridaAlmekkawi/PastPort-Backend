@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PastPort.Application.DTOs.Payment
+namespace PastPort.Application.DTOs.Request
 {
-    public class CreateOrderDTO
+    internal class Amount
     {
-        public decimal Amount { get; set; }
     }
 }

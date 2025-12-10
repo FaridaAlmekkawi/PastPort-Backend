@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PastPort.Application.DTOs.Payment
+namespace PastPort.Domain.Enums
 {
-    public class OrderResponseDTO
+    public enum PaymentProvider
     {
-        public required string OrderId { get; set; }
+        Stripe = 1,
+        PayPal = 2,
+        Manual = 3
     }
-
 }

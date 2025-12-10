@@ -18,6 +18,7 @@ using PastPort.Infrastructure.ExternalServices.AI;
 using PastPort.Infrastructure.ExternalServices.Storage;
 using PastPort.Application.Identity;
 using Microsoft.Extensions.FileProviders;
+using PastPort.Infrastructure.ExternalServices.Payment;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -216,6 +217,19 @@ else
 {
     Log.Warning("Facebook Authentication is not configured - skipping");
 }
+// Stripe Configuration
+builder.Services.Configure<StripeSettings>(
+    builder.Configuration.GetSection("StripeSettings"));
+
+// PayPal Configuration
+builder.Services.Configure<PayPalSettings>(
+    builder.Configuration.GetSection("PayPalSettings"));
+
+// أضف في ConfigureServices:
+builder.Services.Configure<PayPalSettings>(
+    builder.Configuration.GetSection("PayPal"));
+
+
 
 
 
@@ -226,6 +240,10 @@ builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<IAssetRepository, AssetRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+
+
+
 // Services
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -234,7 +252,11 @@ builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<IConversationService, ConversationService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddHttpClient<IPayPalService, PayPalService>();
+builder.Services.AddHttpClient<IStripePaymentService, StripePaymentService>();
+builder.Services.AddScoped<IPaymentService, PayPalService>();
+
+
+
 
 
 
@@ -272,20 +294,19 @@ app.UseHttpsRedirection();
 
 
 // Static Files (للـ Assets)
+var assetsPath = Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "assets");
+
+if (!Directory.Exists(assetsPath))
+{
+    Directory.CreateDirectory(assetsPath);
+}
+
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets")),
-    RequestPath = "/assets",
-    OnPrepareResponse = ctx =>
-    {
-        // Enable CORS for assets
-        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
-
-        // Cache for 1 hour
-        ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=3600");
-    }
+    FileProvider = new PhysicalFileProvider(assetsPath),
+    RequestPath = "/assets"
 });
+
 
 // Custom Middlewares
 app.UseRequestLogging();
