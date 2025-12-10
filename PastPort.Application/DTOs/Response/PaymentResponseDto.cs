@@ -21,4 +21,5 @@
     public DateTime? PaidAt { get; set; }
 
     public string? FailureReason { get; set; }
+    public bool Success { get; set; }
 }

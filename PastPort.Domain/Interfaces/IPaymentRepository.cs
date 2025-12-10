@@ -8,6 +8,4 @@ public interface IPaymentRepository : IRepository<Payment>
     Task<Payment?> GetPaymentByPayPalOrderIdAsync(string payPalOrderId);
     Task<IEnumerable<Payment>> GetUserPaymentsAsync(string userId);
     Task<IEnumerable<Payment>> GetPaymentsByStatusAsync(PaymentStatus status);
-    Task<Payment?> GetPaymentByProviderIdAsync(string providerPaymentId);
-
 }

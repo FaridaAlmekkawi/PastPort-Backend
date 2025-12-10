@@ -7,6 +7,7 @@ using PastPort.Domain.Enums;
 using PastPort.Domain.Interfaces;
 using System.Security.Claims;
 
+
 namespace PastPort.API.Controllers;
 
 [Authorize]
@@ -31,14 +32,14 @@ public class PaymentsController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>
-    /// بدء عملية دفع جديدة
-    /// </summary>
+    /// <summary>  
+    /// بدء عملية دفع جديدة  
+    /// </summary>  
     [HttpPost("initiate")]
     public async Task<IActionResult> InitiatePayment(
-        [FromBody] PayPalPaymentRequestDto request,
-        [FromQuery] SubscriptionPlan plan,
-        [FromQuery] int durationInMonths = 1)
+       [FromBody] PayPalPaymentRequestDto request,
+       [FromQuery] SubscriptionPlan plan,
+       [FromQuery] int durationInMonths = 1)
     {
         try
         {
@@ -52,11 +53,12 @@ public class PaymentsController : ControllerBase
                 DurationInMonths = durationInMonths
             };
 
-            // استدعاء الـ Service
+            // استدعاء الـ Service  
             var result = await ((ISubscriptionService)_subscriptionService)
                 .InitiatePaymentAsync(userId, subscriptionRequest, request);
 
-            if (!result.Success)
+            // Fix: Ensure the result is cast to the expected type or check its structure  
+            if (result is not PaymentResponseDto paymentResponse || !paymentResponse.Success)
                 return BadRequest(result);
 
             return Ok(result);
@@ -68,14 +70,14 @@ public class PaymentsController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// إكمال الدفع بعد الموافقة
-    /// </summary>
+    /// <summary>  
+    /// إكمال الدفع بعد الموافقة  
+    /// </summary>  
     [HttpPost("complete")]
     public async Task<IActionResult> CompletePayment(
-        [FromBody] PayPalApprovalDto request,
-        [FromQuery] SubscriptionPlan plan,
-        [FromQuery] int durationInMonths = 1)
+       [FromBody] PayPalApprovalDto request,
+       [FromQuery] SubscriptionPlan plan,
+       [FromQuery] int durationInMonths = 1)
     {
         try
         {
@@ -89,13 +91,15 @@ public class PaymentsController : ControllerBase
                 DurationInMonths = durationInMonths
             };
 
-            var result = await ((ISubscriptionService)_subscriptionService)
-                .CompletePaymentAsync(userId, request.OrderId, subscriptionRequest);
+            var result = await _subscriptionService
+            .CompletePaymentAsync(userId, request.OrderId, subscriptionRequest);
 
-            if (!result.Success)
+            // Fix: Ensure the result is cast to the expected type or check its structure  
+            if (result is not PaymentResponseDto paymentResponse || !paymentResponse.Success)
                 return BadRequest(result);
 
             return Ok(result);
+
         }
         catch (Exception ex)
         {

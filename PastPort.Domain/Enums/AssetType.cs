@@ -12,6 +12,9 @@ namespace PastPort.Domain.Enums
         Video,
         Document,
         Audio,
-        Other
+        Other,
+        Animation,
+        Texture,
+        Model3D
     }
 }

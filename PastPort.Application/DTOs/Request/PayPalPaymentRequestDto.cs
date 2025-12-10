@@ -8,7 +8,7 @@ public class PayPalPaymentRequestDto
     public Guid SubscriptionPlanId { get; set; }
 
     [Required]
-    public int DurationInMonths { get; set; }
+    public int DurationInMonths { get; set; } = 1;
 
     [Required]
     [EmailAddress]
@@ -28,22 +28,4 @@ public class PayPalApprovalDto
 {
     [Required]
     public string OrderId { get; set; } = string.Empty;
-}
-
-public class PayPalPaymentResponseDto
-{
-    public bool Success { get; set; }
-    public string Message { get; set; } = string.Empty;
-    public string? ApprovalLink { get; set; } // URL تحويل المستخدم
-    public string? OrderId { get; set; }
-    public PaymentStatus Status { get; set; }
-}
-
-public enum PaymentStatus
-{
-    Pending = 0,
-    Approved = 1,
-    Completed = 2,
-    Failed = 3,
-    Cancelled = 4
 }
