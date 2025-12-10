@@ -6,6 +6,8 @@ using PastPort.Application.Interfaces;
 namespace PastPort.API.Controllers;
 
 [Authorize]
+[ApiController]
+[Route("api/[controller]")]
 public class CharactersController : BaseApiController
 {
     private readonly ICharacterService _characterService;

@@ -7,6 +7,8 @@ using System.Security.Claims;
 namespace PastPort.API.Controllers;
 
 [Authorize]
+[ApiController]
+[Route("api/[controller]")]
 public class ConversationsController : BaseApiController
 {
     private readonly IConversationService _conversationService;

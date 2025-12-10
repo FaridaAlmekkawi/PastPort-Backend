@@ -18,7 +18,7 @@ using PastPort.Infrastructure.ExternalServices.AI;
 using PastPort.Infrastructure.ExternalServices.Storage;
 using PastPort.Application.Identity;
 using Microsoft.Extensions.FileProviders;
-using PastPort.Infrastructure.ExternalServices.Payment;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,6 +75,26 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// تفعيل الملفات الثابتة (uploads)
+var uploadPath = Path.Combine(app.Environment.WebRootPath, "uploads");
+if (!Directory.Exists(uploadPath))
+{
+    Directory.CreateDirectory(uploadPath);
+}
+
+app.UseStaticFiles(); // ✅ بالفعل موجود
+
+// إضافة cache للملفات الثابتة
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        const int durationInSeconds = 60 * 60 * 24 * 365; // 1 year
+        ctx.Context.Response.Headers.Append(
+            "Cache-Control",
+            $"public, max-age={durationInSeconds}");
+    }
+});
 // Database Context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -252,8 +272,7 @@ builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<IConversationService, ConversationService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddHttpClient<IStripePaymentService, StripePaymentService>();
-builder.Services.AddScoped<IPaymentService, PayPalService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 

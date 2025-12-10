@@ -7,6 +7,8 @@ using PastPort.Infrastructure.Identity;
 namespace PastPort.API.Controllers;
 
 [Authorize]
+[ApiController]
+[Route("api/[controller]")]
 public class SubscriptionsController : BaseApiController
 {
     private readonly ISubscriptionService _subscriptionService;
