@@ -52,4 +52,4 @@ jobs:
           app-name: 'PastPort'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E621B97B99754EC0AC31E6E89E74E90A }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5D130BAB44544543BA655FC0827BA56E }}
