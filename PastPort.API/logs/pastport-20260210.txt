@@ -1,0 +1,28 @@
+2026-02-10 12:02:35.746 +02:00 [INF] ✅ Google Authentication enabled
+2026-02-10 12:02:35.805 +02:00 [INF] ✅ Facebook Authentication enabled
+2026-02-10 12:02:36.906 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-10 12:02:36.914 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-10 12:02:38.986 +02:00 [INF] ✅ All roles initialized
+2026-02-10 12:02:38.994 +02:00 [INF] 🚀 PastPort API Starting...
+2026-02-10 12:03:06.256 +02:00 [INF] Request: GET / started at "2026-02-10T10:03:06.2551250Z"
+2026-02-10 12:03:06.320 +02:00 [INF] Request: GET / completed in 65.1835ms with status 404
+2026-02-10 12:03:09.302 +02:00 [INF] Request: GET / started at "2026-02-10T10:03:09.3025689Z"
+2026-02-10 12:03:09.309 +02:00 [INF] Request: GET / completed in 6.5562ms with status 404
+2026-02-10 12:03:10.434 +02:00 [INF] Request: GET / started at "2026-02-10T10:03:10.4345634Z"
+2026-02-10 12:03:10.441 +02:00 [INF] Request: GET / completed in 7.3602ms with status 404
+2026-02-10 12:03:11.173 +02:00 [INF] Request: GET / started at "2026-02-10T10:03:11.1738235Z"
+2026-02-10 12:03:11.179 +02:00 [INF] Request: GET / completed in 5.8642ms with status 404
+2026-02-10 12:03:22.780 +02:00 [INF] Request: GET /swagger started at "2026-02-10T10:03:22.7802898Z"
+2026-02-10 12:03:22.784 +02:00 [INF] Request: GET /swagger completed in 4.5389ms with status 301
+2026-02-10 12:03:22.797 +02:00 [INF] Request: GET /swagger/index.html started at "2026-02-10T10:03:22.7976149Z"
+2026-02-10 12:03:22.874 +02:00 [INF] Request: GET /swagger/index.html completed in 76.8765ms with status 200
+2026-02-10 12:03:22.892 +02:00 [INF] Request: GET /swagger/swagger-ui.css started at "2026-02-10T10:03:22.8926475Z"
+2026-02-10 12:03:22.899 +02:00 [INF] Request: GET /swagger/swagger-ui-standalone-preset.js started at "2026-02-10T10:03:22.8998255Z"
+2026-02-10 12:03:22.899 +02:00 [INF] Request: GET /swagger/swagger-ui-bundle.js started at "2026-02-10T10:03:22.8998256Z"
+2026-02-10 12:03:22.921 +02:00 [INF] Request: GET /swagger/swagger-ui.css completed in 28.475ms with status 200
+2026-02-10 12:03:22.921 +02:00 [INF] Request: GET /swagger/swagger-ui-standalone-preset.js completed in 21.3106ms with status 200
+2026-02-10 12:03:22.942 +02:00 [INF] Request: GET /swagger/swagger-ui-bundle.js completed in 43.0462ms with status 200
+2026-02-10 12:03:24.027 +02:00 [INF] Request: GET /swagger/v1/swagger.json started at "2026-02-10T10:03:24.0271467Z"
+2026-02-10 12:03:24.061 +02:00 [INF] Request: GET /swagger/v1/swagger.json completed in 34.687ms with status 200
+2026-02-10 12:03:24.074 +02:00 [INF] Request: GET /swagger/favicon-32x32.png started at "2026-02-10T10:03:24.0743421Z"
+2026-02-10 12:03:24.079 +02:00 [INF] Request: GET /swagger/favicon-32x32.png completed in 5.2421ms with status 200

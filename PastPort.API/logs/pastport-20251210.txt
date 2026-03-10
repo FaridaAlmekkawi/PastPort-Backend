@@ -1,0 +1,200 @@
+2025-12-10 21:28:10.464 +02:00 [INF] Google Authentication enabled
+2025-12-10 21:28:10.498 +02:00 [INF] Facebook Authentication enabled
+2025-12-10 21:28:11.074 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:28:11.080 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:28:32.999 +02:00 [INF] Google Authentication enabled
+2025-12-10 21:28:33.033 +02:00 [INF] Facebook Authentication enabled
+2025-12-10 21:28:33.606 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:28:33.610 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:29:01.990 +02:00 [INF] Google Authentication enabled
+2025-12-10 21:29:02.021 +02:00 [INF] Facebook Authentication enabled
+2025-12-10 21:29:02.698 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:29:02.702 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:29:37.199 +02:00 [ERR] Failed executing DbCommand (22,336ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-10 21:29:37.219 +02:00 [ERR] An exception occurred while iterating over the results of a query for context type 'PastPort.Infrastructure.Data.ApplicationDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): A transport-level error has occurred when receiving results from the server. (provider: Session Provider, error: 19 - Physical connection is not usable)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:2bde3458-572e-430b-8e32-df0aa8c8f47d
+Error Number:-1,State:0,Class:20
+Microsoft.Data.SqlClient.SqlException (0x80131904): A transport-level error has occurred when receiving results from the server. (provider: Session Provider, error: 19 - Physical connection is not usable)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:2bde3458-572e-430b-8e32-df0aa8c8f47d
+Error Number:-1,State:0,Class:20
+2025-12-10 21:29:37.234 +02:00 [ERR] An error occurred while seeding roles
+Microsoft.Data.SqlClient.SqlException (0x80131904): A transport-level error has occurred when receiving results from the server. (provider: Session Provider, error: 19 - Physical connection is not usable)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Identity.RoleManager`1.RoleExistsAsync(String roleName)
+   at Program.<Main>$(String[] args) in C:\Users\RTX\source\repos\PastPort-Backend1\PastPort.API\Program.cs:line 328
+ClientConnectionId:2bde3458-572e-430b-8e32-df0aa8c8f47d
+Error Number:-1,State:0,Class:20
+2025-12-10 21:29:37.263 +02:00 [INF] PastPort API Starting...
+2025-12-10 21:35:40.951 +02:00 [WRN] Failed to determine the https port for redirect.
+2025-12-10 21:35:40.955 +02:00 [INF] Request: POST /api/Auth/login started at "2025-12-10T19:35:40.9549420Z"
+2025-12-10 21:35:47.065 +02:00 [INF] Request: POST /api/Auth/login completed in 6110.3592ms with status 400
+2025-12-10 21:37:16.239 +02:00 [INF] Request: POST /api/Auth/register started at "2025-12-10T19:37:16.2398664Z"
+2025-12-10 21:37:16.265 +02:00 [INF] Request: POST /api/Auth/register completed in 25.8103ms with status 400
+2025-12-10 21:37:31.592 +02:00 [INF] Request: POST /api/Auth/register started at "2025-12-10T19:37:31.5927094Z"
+2025-12-10 21:37:33.420 +02:00 [INF] 📧 Verification Code for admin@example.com: 672351
+2025-12-10 21:37:33.787 +02:00 [INF] Request: POST /api/Auth/register completed in 2194.2902ms with status 200
+2025-12-10 21:37:57.593 +02:00 [INF] Request: POST /api/Auth/login started at "2025-12-10T19:37:57.5931812Z"
+2025-12-10 21:37:58.427 +02:00 [INF] Request: POST /api/Auth/login completed in 834.1298ms with status 200
+2025-12-10 21:46:54.579 +02:00 [INF] Google Authentication enabled
+2025-12-10 21:46:54.613 +02:00 [INF] Facebook Authentication enabled
+2025-12-10 21:46:55.248 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:46:55.252 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:46:57.160 +02:00 [INF] All roles initialized
+2025-12-10 21:46:57.165 +02:00 [INF] PastPort API Starting...
+2025-12-10 21:47:42.276 +02:00 [WRN] Failed to determine the https port for redirect.
+2025-12-10 21:47:42.281 +02:00 [INF] Request: POST /api/Auth/login started at "2025-12-10T19:47:42.2810580Z"
+2025-12-10 21:47:43.779 +02:00 [INF] Request: POST /api/Auth/login completed in 1498.5573ms with status 200
+2025-12-10 21:52:58.955 +02:00 [INF] Google Authentication enabled
+2025-12-10 21:52:58.993 +02:00 [INF] Facebook Authentication enabled
+2025-12-10 21:52:59.687 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:52:59.691 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:53:04.699 +02:00 [INF] All roles initialized
+2025-12-10 21:53:04.704 +02:00 [INF] PastPort API Starting...
+2025-12-10 21:54:46.493 +02:00 [INF] Google Authentication enabled
+2025-12-10 21:54:46.527 +02:00 [INF] Facebook Authentication enabled
+2025-12-10 21:54:47.126 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:54:47.131 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:54:49.511 +02:00 [INF] All roles initialized
+2025-12-10 21:54:49.515 +02:00 [INF] PastPort API Starting...
+2025-12-10 21:54:52.554 +02:00 [WRN] Failed to determine the https port for redirect.
+2025-12-10 21:54:52.561 +02:00 [INF] Request: GET /.well-known/appspecific/com.chrome.devtools.json started at "2025-12-10T19:54:52.5610903Z"
+2025-12-10 21:54:52.659 +02:00 [INF] Request: GET /.well-known/appspecific/com.chrome.devtools.json completed in 97.8057ms with status 404
+2025-12-10 21:57:23.516 +02:00 [INF] Google Authentication enabled
+2025-12-10 21:57:23.547 +02:00 [INF] Facebook Authentication enabled
+2025-12-10 21:57:24.194 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:57:24.199 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 21:57:25.779 +02:00 [INF] All roles initialized
+2025-12-10 21:57:25.788 +02:00 [INF] PastPort API Starting...
+2025-12-10 21:58:13.552 +02:00 [WRN] Failed to determine the https port for redirect.
+2025-12-10 21:58:13.570 +02:00 [INF] Request: GET /.well-known/appspecific/com.chrome.devtools.json started at "2025-12-10T19:58:13.5699325Z"
+2025-12-10 21:58:13.645 +02:00 [INF] Request: GET /.well-known/appspecific/com.chrome.devtools.json completed in 75.1162ms with status 404
+2025-12-10 21:58:33.642 +02:00 [INF] Request: GET /.well-known/appspecific/com.chrome.devtools.json started at "2025-12-10T19:58:33.6424748Z"
+2025-12-10 21:58:33.647 +02:00 [INF] Request: GET /.well-known/appspecific/com.chrome.devtools.json completed in 4.529ms with status 404
+2025-12-10 22:11:44.308 +02:00 [INF] ✅ Google Authentication enabled
+2025-12-10 22:11:44.345 +02:00 [INF] ✅ Facebook Authentication enabled
+2025-12-10 22:11:45.003 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 22:11:45.007 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 22:11:53.640 +02:00 [INF] ✅ All roles initialized
+2025-12-10 22:11:53.647 +02:00 [INF] 🚀 PastPort API Starting...
+2025-12-10 22:12:07.835 +02:00 [WRN] Failed to determine the https port for redirect.
+2025-12-10 22:12:07.839 +02:00 [INF] Request: GET /swagger/index.html started at "2025-12-10T20:12:07.8390999Z"
+2025-12-10 22:12:07.904 +02:00 [INF] Request: GET /swagger/index.html completed in 64.7902ms with status 200
+2025-12-10 22:12:09.365 +02:00 [INF] Request: GET /swagger/v1/swagger.json started at "2025-12-10T20:12:09.3651977Z"
+2025-12-10 22:12:09.493 +02:00 [INF] Request: GET /swagger/v1/swagger.json completed in 128.5907ms with status 200
+2025-12-10 22:12:35.566 +02:00 [INF] Request: POST /api/Auth/login started at "2025-12-10T20:12:35.5662275Z"
+2025-12-10 22:12:46.935 +02:00 [INF] Request: POST /api/Auth/login completed in 11369.1229ms with status 200
+2025-12-10 22:14:48.565 +02:00 [INF] Request: POST /api/Assets/upload started at "2025-12-10T20:14:48.5652498Z"
+2025-12-10 22:14:48.606 +02:00 [INF] JWT Token validated for user: null
+2025-12-10 22:14:48.618 +02:00 [INF] Request: POST /api/Assets/upload completed in 53.4567ms with status 403
+2025-12-10 22:18:38.894 +02:00 [INF] ✅ Google Authentication enabled
+2025-12-10 22:18:38.926 +02:00 [INF] ✅ Facebook Authentication enabled
+2025-12-10 22:18:39.573 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 22:18:39.577 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 22:18:41.276 +02:00 [INF] ✅ All roles initialized
+2025-12-10 22:18:41.280 +02:00 [INF] 🚀 PastPort API Starting...
+2025-12-10 22:18:45.105 +02:00 [WRN] Failed to determine the https port for redirect.
+2025-12-10 22:18:45.109 +02:00 [INF] Request: GET /swagger/index.html started at "2025-12-10T20:18:45.1082660Z"
+2025-12-10 22:18:45.173 +02:00 [INF] Request: GET /swagger/index.html completed in 65.0506ms with status 200
+2025-12-10 22:18:46.677 +02:00 [INF] Request: GET /swagger/v1/swagger.json started at "2025-12-10T20:18:46.6779035Z"
+2025-12-10 22:18:46.823 +02:00 [INF] Request: GET /swagger/v1/swagger.json completed in 145.8032ms with status 200
+2025-12-10 22:19:11.208 +02:00 [INF] Request: POST /api/Auth/login started at "2025-12-10T20:19:11.2083383Z"
+2025-12-10 22:19:13.289 +02:00 [INF] Request: POST /api/Auth/login completed in 2080.8323ms with status 200
+2025-12-10 22:20:17.180 +02:00 [INF] Request: POST /api/Assets/upload started at "2025-12-10T20:20:17.1806481Z"
+2025-12-10 22:20:17.217 +02:00 [WRN] JWT Authentication failed: IDX10517: Signature validation failed. The token's kid is missing. Keys tried: 'Microsoft.IdentityModel.Tokens.SymmetricSecurityKey, KeyId: '', InternalId: 'fxzQEkAL5LkvTJdpuSd4HzXTGzuu7jwwla1kPC6QuLw'. , KeyId: 
+'. Number of keys in TokenValidationParameters: '1'. 
+Number of keys in Configuration: '0'. 
+Exceptions caught:
+ '[PII of type 'System.Text.StringBuilder' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+token: '[PII of type 'Microsoft.IdentityModel.JsonWebTokens.JsonWebToken' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'. See https://aka.ms/IDX10503 for details.
+2025-12-10 22:20:17.229 +02:00 [INF] Request: POST /api/Assets/upload completed in 48.9975ms with status 401
+2025-12-10 22:23:26.047 +02:00 [INF] Request: GET /swagger/index.html started at "2025-12-10T20:23:26.0477388Z"
+2025-12-10 22:23:26.051 +02:00 [INF] Request: GET /swagger/index.html completed in 3.6857ms with status 200
+2025-12-10 22:23:26.878 +02:00 [INF] Request: GET /swagger/v1/swagger.json started at "2025-12-10T20:23:26.8784452Z"
+2025-12-10 22:23:26.900 +02:00 [INF] Request: GET /swagger/v1/swagger.json completed in 22.4303ms with status 200
+2025-12-10 22:24:37.029 +02:00 [INF] Request: POST /api/Auth/register started at "2025-12-10T20:24:37.0297876Z"
+2025-12-10 22:24:40.737 +02:00 [INF] 📧 Verification Code for farida@gmail.com: 470521
+2025-12-10 22:24:41.379 +02:00 [INF] Request: POST /api/Auth/register completed in 4350.2ms with status 200
+2025-12-10 22:25:16.741 +02:00 [INF] Request: POST /api/Auth/login started at "2025-12-10T20:25:16.7418070Z"
+2025-12-10 22:25:16.991 +02:00 [INF] Request: POST /api/Auth/login completed in 249.8758ms with status 400
+2025-12-10 22:25:38.011 +02:00 [INF] Request: POST /api/Auth/login started at "2025-12-10T20:25:38.0113144Z"
+2025-12-10 22:25:38.149 +02:00 [INF] Request: POST /api/Auth/login completed in 138.3198ms with status 400
+2025-12-10 22:26:34.296 +02:00 [INF] Request: POST /api/Auth/login started at "2025-12-10T20:26:34.2963647Z"
+2025-12-10 22:26:36.319 +02:00 [INF] Request: POST /api/Auth/login completed in 2023.594ms with status 200
+2025-12-10 22:27:20.868 +02:00 [INF] Request: POST /api/Assets/upload started at "2025-12-10T20:27:20.8688485Z"
+2025-12-10 22:27:20.871 +02:00 [WRN] JWT Authentication failed: IDX14102: Unable to decode the header '[PII of type 'Microsoft.IdentityModel.Logging.SecurityArtifact' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]' as Base64Url encoded string.
+2025-12-10 22:27:20.874 +02:00 [INF] Request: POST /api/Assets/upload completed in 5.261ms with status 401
+2025-12-10 22:36:15.178 +02:00 [INF] ✅ Google Authentication enabled
+2025-12-10 22:36:15.210 +02:00 [INF] ✅ Facebook Authentication enabled
+2025-12-10 22:36:15.846 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 22:36:15.854 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 22:36:18.680 +02:00 [INF] ✅ All roles initialized
+2025-12-10 22:36:18.685 +02:00 [INF] 🚀 PastPort API Starting...
+2025-12-10 22:36:27.330 +02:00 [WRN] Failed to determine the https port for redirect.
+2025-12-10 22:36:27.336 +02:00 [INF] Request: GET /swagger/index.html started at "2025-12-10T20:36:27.3354486Z"
+2025-12-10 22:36:27.408 +02:00 [INF] Request: GET /swagger/index.html completed in 73.0668ms with status 200
+2025-12-10 22:36:28.767 +02:00 [INF] Request: GET /swagger/v1/swagger.json started at "2025-12-10T20:36:28.7672553Z"
+2025-12-10 22:36:28.903 +02:00 [INF] Request: GET /swagger/v1/swagger.json completed in 135.7999ms with status 200
+2025-12-10 22:37:14.990 +02:00 [INF] Request: POST /api/Auth/login started at "2025-12-10T20:37:14.9902191Z"
+2025-12-10 22:37:16.335 +02:00 [INF] Request: POST /api/Auth/login completed in 1345.7458ms with status 200
+2025-12-10 22:38:09.444 +02:00 [INF] Request: POST /api/Assets/upload started at "2025-12-10T20:38:09.4441219Z"
+2025-12-10 22:38:09.458 +02:00 [WRN] JWT Authentication failed: IDX14102: Unable to decode the header '[PII of type 'Microsoft.IdentityModel.Logging.SecurityArtifact' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]' as Base64Url encoded string.
+2025-12-10 22:38:09.468 +02:00 [INF] Request: POST /api/Assets/upload completed in 24.6439ms with status 401
+2025-12-10 22:39:06.790 +02:00 [INF] Request: GET /swagger/index.html started at "2025-12-10T20:39:06.7900953Z"
+2025-12-10 22:39:06.793 +02:00 [INF] Request: GET /swagger/index.html completed in 3.4902ms with status 200
+2025-12-10 22:39:07.697 +02:00 [INF] Request: GET /swagger/v1/swagger.json started at "2025-12-10T20:39:07.6971870Z"
+2025-12-10 22:39:07.728 +02:00 [INF] Request: GET /swagger/v1/swagger.json completed in 31.4853ms with status 200
+2025-12-10 22:45:15.144 +02:00 [INF] Request: POST /api/Assets/upload started at "2025-12-10T20:45:15.1447256Z"
+2025-12-10 22:45:15.178 +02:00 [INF] JWT Token validated for user: null
+2025-12-10 22:45:15.226 +02:00 [INF] تم رفع الملف بنجاح: Veh_Van_Green_Z_c099ffc9.prefab, الحجم: 15159 bytes
+2025-12-10 22:45:19.770 +02:00 [INF] Request: POST /api/Assets/upload completed in 4626.0975ms with status 200
+2025-12-10 22:49:40.214 +02:00 [INF] Request: GET /api/Assets/download/FirstCar started at "2025-12-10T20:49:40.2148360Z"
+2025-12-10 22:49:40.220 +02:00 [INF] JWT Token validated for user: null
+2025-12-10 22:49:42.918 +02:00 [INF] Request: GET /api/Assets/download/FirstCar completed in 2703.6903ms with status 404
+2025-12-10 22:50:08.368 +02:00 [INF] Request: GET /api/Assets/download/Veh_Van_Green_Z_c099ffc9.prefab started at "2025-12-10T20:50:08.3686617Z"
+2025-12-10 22:50:08.372 +02:00 [INF] JWT Token validated for user: null
+2025-12-10 22:50:08.646 +02:00 [INF] Request: GET /api/Assets/download/Veh_Van_Green_Z_c099ffc9.prefab completed in 277.8243ms with status 200
+2025-12-10 22:54:08.391 +02:00 [INF] ✅ Google Authentication enabled
+2025-12-10 22:54:08.421 +02:00 [INF] ✅ Facebook Authentication enabled
+2025-12-10 22:54:09.082 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-10 22:54:09.085 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.

@@ -1,0 +1,46 @@
+2025-12-03 18:52:23.370 +02:00 [INF] Google Authentication enabled
+2025-12-03 18:52:23.404 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 19:04:19.711 +02:00 [INF] Google Authentication enabled
+2025-12-03 19:04:19.747 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 19:05:24.677 +02:00 [INF] Google Authentication enabled
+2025-12-03 19:05:24.708 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 19:07:20.288 +02:00 [INF] Google Authentication enabled
+2025-12-03 19:07:20.318 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 20:33:51.918 +02:00 [INF] Google Authentication enabled
+2025-12-03 20:33:51.950 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 20:33:52.563 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 20:33:52.567 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 20:34:18.488 +02:00 [INF] Google Authentication enabled
+2025-12-03 20:34:18.524 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 20:34:19.116 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 20:34:19.122 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 20:36:04.816 +02:00 [INF] Google Authentication enabled
+2025-12-03 20:36:04.849 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 20:36:05.442 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 20:36:05.444 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 20:38:45.545 +02:00 [INF] Google Authentication enabled
+2025-12-03 20:38:45.579 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 20:38:46.149 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 20:38:46.151 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 20:43:24.649 +02:00 [INF] Google Authentication enabled
+2025-12-03 20:43:24.679 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 20:43:25.271 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 20:43:25.273 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 20:44:46.035 +02:00 [INF] Google Authentication enabled
+2025-12-03 20:44:46.069 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 20:45:23.958 +02:00 [INF] Google Authentication enabled
+2025-12-03 20:45:23.989 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 20:45:24.608 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 20:45:24.610 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 23:45:37.816 +02:00 [INF] Google Authentication enabled
+2025-12-03 23:45:37.852 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 23:45:38.542 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 23:45:38.544 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 23:47:28.562 +02:00 [INF] Google Authentication enabled
+2025-12-03 23:47:28.598 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 23:51:44.819 +02:00 [INF] Google Authentication enabled
+2025-12-03 23:51:44.861 +02:00 [INF] Facebook Authentication enabled
+2025-12-03 23:51:45.004 +02:00 [INF] PastPort API Starting...
+2025-12-03 23:51:45.676 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 23:51:45.681 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-12-03 23:51:47.274 +02:00 [INF] All roles initialized

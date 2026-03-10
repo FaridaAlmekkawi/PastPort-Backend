@@ -1,0 +1,50 @@
+2025-11-28 12:41:58.565 +02:00 [INF] Google Authentication enabled
+2025-11-28 12:41:58.609 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 12:42:08.091 +02:00 [INF] Google Authentication enabled
+2025-11-28 12:42:08.138 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 12:42:09.738 +02:00 [ERR] Failed executing DbCommand (38ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoles] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(256) NULL,
+    [NormalizedName] nvarchar(256) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+);
+2025-11-28 13:03:00.272 +02:00 [INF] Google Authentication enabled
+2025-11-28 13:03:00.309 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 13:03:00.433 +02:00 [INF] PastPort API Starting...
+2025-11-28 13:03:01.846 +02:00 [INF] All roles initialized
+2025-11-28 18:43:54.175 +02:00 [INF] Google Authentication enabled
+2025-11-28 18:43:54.210 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 18:43:55.543 +02:00 [ERR] Failed executing DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoles] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(256) NULL,
+    [NormalizedName] nvarchar(256) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+);
+2025-11-28 18:47:57.123 +02:00 [INF] Google Authentication enabled
+2025-11-28 18:47:57.159 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 19:13:54.175 +02:00 [INF] Google Authentication enabled
+2025-11-28 19:13:54.212 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 19:27:29.267 +02:00 [INF] Google Authentication enabled
+2025-11-28 19:27:29.305 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 19:27:37.162 +02:00 [INF] Google Authentication enabled
+2025-11-28 19:27:37.198 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 19:27:43.976 +02:00 [INF] Google Authentication enabled
+2025-11-28 19:27:44.017 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 21:35:40.052 +02:00 [INF] Google Authentication enabled
+2025-11-28 21:35:40.095 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 21:57:02.000 +02:00 [INF] Google Authentication enabled
+2025-11-28 21:57:02.037 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 21:58:15.652 +02:00 [INF] Google Authentication enabled
+2025-11-28 21:58:15.685 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 22:04:58.855 +02:00 [INF] Google Authentication enabled
+2025-11-28 22:04:58.900 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 22:09:00.602 +02:00 [INF] Google Authentication enabled
+2025-11-28 22:09:00.651 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 22:30:23.050 +02:00 [INF] Google Authentication enabled
+2025-11-28 22:30:23.087 +02:00 [INF] Facebook Authentication enabled
+2025-11-28 22:30:23.214 +02:00 [INF] PastPort API Starting...
+2025-11-28 22:30:27.433 +02:00 [INF] All roles initialized

@@ -1,0 +1,14 @@
+2026-03-03 20:34:09.543 +02:00 [INF] ✅ Google Authentication enabled
+2026-03-03 20:34:09.575 +02:00 [INF] ✅ Facebook Authentication enabled
+2026-03-03 20:34:10.234 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-03-03 20:34:10.237 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-03-03 21:41:17.404 +02:00 [INF] ✅ Google Authentication enabled
+2026-03-03 21:41:17.456 +02:00 [INF] ✅ Facebook Authentication enabled
+2026-03-03 21:41:18.240 +02:00 [WRN] The foreign key property 'Payment.SubscriptionId1' was created in shadow state because a conflicting property with the simple name 'SubscriptionId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-03-03 21:41:18.245 +02:00 [WRN] The foreign key property 'Subscription.LastPaymentId1' was created in shadow state because a conflicting property with the simple name 'LastPaymentId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-03-03 21:41:20.102 +02:00 [INF] ✅ All roles initialized
+2026-03-03 21:41:20.111 +02:00 [INF] 🚀 PastPort API Starting...
+2026-03-03 21:41:24.505 +02:00 [INF] Request: GET /swagger/index.html started at "2026-03-03T19:41:24.5053800Z"
+2026-03-03 21:41:24.566 +02:00 [INF] Request: GET /swagger/index.html completed in 61.3917ms with status 200
+2026-03-03 21:41:25.619 +02:00 [INF] Request: GET /swagger/v1/swagger.json started at "2026-03-03T19:41:25.6190004Z"
+2026-03-03 21:41:25.648 +02:00 [INF] Request: GET /swagger/v1/swagger.json completed in 29.5404ms with status 200

@@ -1,0 +1,18 @@
+2025-11-26 11:03:50.752 +02:00 [INF] Google Authentication enabled
+2025-11-26 11:03:50.786 +02:00 [INF] Facebook Authentication enabled
+2025-11-26 11:03:50.888 +02:00 [INF] PastPort API Starting...
+2025-11-26 11:03:52.006 +02:00 [INF] All roles initialized
+2025-11-26 11:06:08.749 +02:00 [WRN] Failed to determine the https port for redirect.
+2025-11-26 11:06:08.756 +02:00 [INF] Request: GET /api/Auth/external-login/google started at "2025-11-26T09:06:08.7551086Z"
+2025-11-26 11:06:08.851 +02:00 [INF] Request: GET /api/Auth/external-login/google completed in 96.6127ms with status 302
+2025-11-26 11:07:01.759 +02:00 [INF] Request: GET /api/Auth/external-login/google started at "2025-11-26T09:07:01.7596451Z"
+2025-11-26 11:07:01.770 +02:00 [INF] Request: GET /api/Auth/external-login/google completed in 10.5939ms with status 302
+2025-11-26 11:07:20.123 +02:00 [INF] Request: GET /api/Auth/external-login/google started at "2025-11-26T09:07:20.1232444Z"
+2025-11-26 11:07:20.140 +02:00 [INF] Request: GET /api/Auth/external-login/google completed in 16.7703ms with status 302
+2025-11-26 21:02:36.997 +02:00 [INF] Google Authentication enabled
+2025-11-26 21:02:37.037 +02:00 [INF] Facebook Authentication enabled
+2025-11-26 21:02:37.157 +02:00 [INF] PastPort API Starting...
+2025-11-26 21:02:38.485 +02:00 [INF] All roles initialized
+2025-11-26 22:43:34.485 +02:00 [WRN] Failed to determine the https port for redirect.
+2025-11-26 22:43:34.501 +02:00 [INF] Request: GET /api/ExternalAuth/google started at "2025-11-26T20:43:34.5006162Z"
+2025-11-26 22:43:34.649 +02:00 [INF] Request: GET /api/ExternalAuth/google completed in 148.7623ms with status 302

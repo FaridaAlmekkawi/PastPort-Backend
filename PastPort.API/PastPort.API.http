@@ -1,0 +1,6 @@
+@PastPort.API_HostAddress = http://localhost:5263
+
+GET {{PastPort.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
