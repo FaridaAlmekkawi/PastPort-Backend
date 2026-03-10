@@ -47,6 +47,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .Property(s => s.Price)
             .HasColumnType("decimal(18,2)");
 
+        builder.Entity<Subscription>()
+            .HasOne(s => s.LastPayment)
+            .WithMany()
+            .HasForeignKey(s => s.LastPaymentId)
+            .OnDelete(DeleteBehavior.SetNull);
+
         builder.Entity<EmailVerificationCode>()
             .HasOne(e => e.User)
             .WithMany()
@@ -105,7 +111,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 .OnDelete(DeleteBehavior.Restrict);
 
             entity.HasOne(p => p.Subscription)
-                .WithMany()
+                .WithMany(s => s.Payments)
                 .HasForeignKey(p => p.SubscriptionId)
                 .OnDelete(DeleteBehavior.SetNull);
 
